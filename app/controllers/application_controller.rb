@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
 
 	def authenticate_user
 		if session[:user_id].nil? || current_user.nil?
-			redirect_to ""
+			redirect_to new_sessions_path
 		end
 	end
 
