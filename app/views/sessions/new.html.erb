@@ -1,0 +1,18 @@
+<%= form_for @user, url: sessions_path do |form| %>
+  <% if @errors %>
+    <div id="error_explanation">
+      <ul>
+        <li>Invalid Email or password</li>
+      </ul>
+    </div>
+  <% end %>
+  <%= form.label :email %>
+  <%= form.text_field :email %>
+  <br>
+  <%= form.label :password %>
+  <%= form.password_field :password %>
+  <br>
+  <div class="actions">
+    <%= form.submit "Sign in" %>
+  </div>
+<% end %>
