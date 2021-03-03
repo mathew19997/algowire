@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
 	end
 
 	def destroy
-		log_out(user) unless current_user
+		log_out(current_user) if current_user
 		redirect_to root_path
 	end
 
