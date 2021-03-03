@@ -10,7 +10,7 @@
       </ul>
     </div>
   <% end %>
-  <% if params[:action] == "new" %>
+  <% if action %>
     <%= form.label :email %>
     <%= form.text_field :email %>
     <br>
@@ -22,7 +22,7 @@
   <%= form.password_field :password_confirmation %>
   <br>
   <div class="actions">
-    <% if params[:action] == "new" %>
+    <% if action %>
       <%= form.submit "Sign up" %>
     <div>
       <%=link_to "Sign in", new_session_path %>
