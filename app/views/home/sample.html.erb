@@ -1,5 +1,7 @@
-hi
+Hi
 <%= @user.email %> <br>
 This page is only available if logged in
 <br>
 <%= link_to "Log out", session_path(@user), method: :delete %>
+<br>
+<%= link_to "Home", root_path%>
