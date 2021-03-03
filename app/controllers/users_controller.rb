@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1 or /users/1.json
   def update
     respond_to do |format|
-      if @user.update(user_params)
+      if @user.update(user_params.merge(recover_code: nil))
         log_in(@user)
         format.html { redirect_to sample_home_index_path, notice: "User was successfully updated." }
       else
