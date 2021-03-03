@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[ show edit update destroy ]
+  before_action :set_user, only: %i[ update ]
+  before_action :user_logged_in, only: :forgot_password
 
   # GET /users/new
   def new
@@ -8,6 +9,8 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    @user = User.find_by(recover_code: params[:id]) if !params[:id].nil?
+    redirect_to new_session_path, notice: "Incorrect recovery code." if @user.nil?
   end
 
   # POST /users or /users.json
@@ -27,12 +30,22 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1 or /users/1.json
   def update
     respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to @user, notice: "User was successfully updated." }
-        format.json { render :show, status: :ok, location: @user }
+      if @user.update(user_params.merge(recover_code: nil))
+        log_in(@user)
+        format.html { redirect_to sample_home_index_path, notice: "User was successfully updated." }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def forgot_password
+    @user = User.new
+    if request.post?
+      if User.forgot_password(user_params[:email])
+        redirect_to new_session_path, notice: "Recovery email has been sent"
+      else
+        redirect_to new_session_path, notice: "Incorrect Email"
       end
     end
   end
@@ -41,6 +54,10 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
+    end
+
+    def user_logged_in
+      redirect_to sample_home_index_path if current_user
     end
 
     # Only allow a list of trusted parameters through.

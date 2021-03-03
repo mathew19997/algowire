@@ -10,9 +10,11 @@
       </ul>
     </div>
   <% end %>
-  <%= form.label :email %>
-  <%= form.text_field :email %>
-  <br>
+  <% if params[:action] == "new" %>
+    <%= form.label :email %>
+    <%= form.text_field :email %>
+    <br>
+  <% end%>
   <%= form.label :password %>
   <%= form.password_field :password %>
   <br>
@@ -20,6 +22,10 @@
   <%= form.password_field :password_confirmation %>
   <br>
   <div class="actions">
-    <%= form.submit "Sign up" %>
+    <% if params[:action] == "new" %>
+      <%= form.submit "Sign up" %>
+    <% else %>
+      <%= form.submit "Change password" %>
+    <%end%>
   </div>
 <% end %>
