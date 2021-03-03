@@ -1,8 +1,11 @@
-hi
+Hi
 <% if @user.nil? %>
 	<p>You are currently not logged in</p>
 	<%= link_to "Log in", new_session_path%>
 <%else%>
-	<p>You Are currently logged in as <%= @user.email%></p>
+	<p>You are currently logged in as <%= @user.email%></p>
 	<%= link_to "Log out", session_path(@user), method: :delete %>
 <%end%>
+<br>
+<br>
+<%= link_to "Click here", sample_home_index_path %> will goto login page if not logged in

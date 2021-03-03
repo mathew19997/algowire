@@ -24,6 +24,9 @@
   <div class="actions">
     <% if params[:action] == "new" %>
       <%= form.submit "Sign up" %>
+    <div>
+      <%=link_to "Sign in", new_session_path %>
+    </div>
     <% else %>
       <%= form.submit "Change password" %>
     <%end%>
