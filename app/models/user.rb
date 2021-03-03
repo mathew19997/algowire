@@ -1,6 +1,6 @@
 class User < ApplicationRecord
 	attr_accessor :password_confirmation
-	validate :verify_password 
+	validate :verify_password , if: Proc.new { |user| user.password_confirmation.present? }
 
 	validates_format_of :email,:with => /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/
 
@@ -17,5 +17,15 @@ class User < ApplicationRecord
 		end
 	end
 
+	def self.forgot_password(email)
+		user = self.find_by(email: email)
+		if user.nil?
+			return false
+		else
+			user.recover_code = SecureRandom.hex()
+			UserMailer.recovery(user).deliver_now if user.save
+			return true
+		end
+	end
+
 end
-# self.changes["status"].present?
